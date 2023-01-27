@@ -10,21 +10,22 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> 
-{
-
+class _MyAppState extends State<MyApp> {
   String batteryLevel = 'Waiting...';
   static const batteryChannel = MethodChannel('com.mahi/battery');
 
-    Future getBatteryLevel() async
-    {
-     final int newBatteryLevel = await batteryChannel.invokeMethod('getBatteryLevel');
+  Future getBatteryLevel() async {
+    final arguments = {'name': 'Sarah Abs'};
 
-     setState(() {
-       batteryLevel = '$newBatteryLevel';
-     });
-    }
+    final String newBatteryLevel = await batteryChannel.invokeMethod(
+      'getBatteryLevel',
+      arguments,
+    );
 
+    setState(() {
+      batteryLevel = '$newBatteryLevel';
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +37,7 @@ class _MyAppState extends State<MyApp>
         ),
         body: Column(children: [
           Text(batteryLevel),
-          ElevatedButton(
+           ElevatedButton(
             child: Text("get Battery level"),
             onPressed: getBatteryLevel,
           )
